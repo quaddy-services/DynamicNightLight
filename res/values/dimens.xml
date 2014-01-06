@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="large">20mm</dimen>
+     <dimen name="small">8dp</dimen>
+    <dimen name="large">20dp</dimen>
+    <dimen name="clockTextSize">120dp</dimen>
+    <dimen name="padding">5px</dimen>
 </resources>

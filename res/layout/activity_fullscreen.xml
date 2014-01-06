@@ -3,61 +3,85 @@
     style="@color/black_overlay"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#0099cc"
-    android:keepScreenOn="true"
-    android:orientation="vertical"
+    
+    android:orientation="horizontal"
+    android:fitsSystemWindows="true"
     tools:context=".FullscreenActivity" >
 
-
-    <TextView
+      <TextView
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:keepScreenOn="true"
         android:text="@string/dummy_content"
         android:textColor="#33b5e5"
         android:textSize="50sp"
         android:textStyle="bold" />
+    
+        <RelativeLayout
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-    <FrameLayout
-        android:id="@+id/FrameLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black"
-        android:fitsSystemWindows="true" >
+            <TextView
+                android:id="@+id/textTop"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:background="@color/white"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="17:55"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/white"
-            android:textSize="@dimen/large" />
+             <TextView
+                android:id="@+id/textBottom"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:background="@color/white"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+            
+            <TextView
+                android:id="@+id/textLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/textBottom"
+                android:layout_below="@id/textTop"
+                android:text="@string/clockInitialText"
+                android:textColor="@color/black"
+                android:textSize="@dimen/small" />
 
-        <TextView
-            android:id="@+id/textTop"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|fill_horizontal"
-            android:background="@color/white"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/white"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/textBottom"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|fill_horizontal"
-            android:background="@color/white"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/white"
-            android:textSize="30sp" />
-
-    </FrameLayout>
+                        <TextView
+                            android:id="@+id/textRight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/BigTextButton1"
+                            android:layout_alignBottom="@+id/BigTextButton1"
+                            android:layout_alignParentRight="true"
+                            android:text="@string/clockInitialText"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/small" />
+            
+            <de.quaddyservices.dynamicnightlight.BigTextButton
+                android:id="@+id/BigTextButton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/textBottom"
+                android:layout_alignParentRight="false"
+                android:layout_below="@id/textTop"
+                android:layout_centerHorizontal="false"
+                android:layout_centerVertical="false"
+                android:layout_toLeftOf="@id/textRight"
+                android:layout_toRightOf="@id/textLeft"
+                android:background="@color/black"
+                android:text="@string/clockInitialText"
+                android:textColor="@color/white"
+                android:textSize="@dimen/clockTextSize"/>
+  
+        </RelativeLayout>
 
 </FrameLayout>

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">DynamicNightLight</string>
+    <string name="app_name">Dynamic Night Light</string>
     <string name="exitButton">Exit</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-
+    <string name="clockInitialText">17:55</string>
+	<string name="PowerOn">Power is available.</string>
+	<string name="PowerOff">Power NOT attached!\nAttach power source to keep display on.</string>
 </resources>
