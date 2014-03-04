@@ -16,12 +16,14 @@ public class SettingsActivity extends PreferenceActivity {
 
 		super.onCreate(savedInstanceState);
 
-//		PreferenceManager.setDefaultValues(this, R.xml.preferences,
-//	            false);
+		// Load the preferences from an XML resource
+		addPreferencesFromResource(R.xml.preferences);
 
-		// Display the fragment as the main content.
-		getFragmentManager().beginTransaction()
-				.replace(android.R.id.content, new SettingsFragment()).commit();
+		// TODO API Level >=11
+
+		//		// Display the fragment as the main content.
+		//		getFragmentManager().beginTransaction()
+		//				.replace(android.R.id.content, new SettingsFragment()).commit();
 
 	}
 }

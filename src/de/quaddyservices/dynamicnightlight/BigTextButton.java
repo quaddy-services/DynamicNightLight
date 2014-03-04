@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -22,7 +21,7 @@ public class BigTextButton extends View {
 		parseAttrs(attrs);
 		init();
 	}
-
+ 
 	public BigTextButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		parseAttrs(attrs);
