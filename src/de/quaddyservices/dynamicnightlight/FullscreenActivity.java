@@ -117,13 +117,22 @@ public class FullscreenActivity extends Activity {
 		});
 
 		onCreateNightLight();
-
-		if (isBatteryCharging()) {
-			setKeepScreenOn(true);
-		} else {
-			setKeepScreenOn(false);
-		}
+		nextCheckBattery = 0;
+		checkBattery();
 		initPowerConnectionReceiver();
+	}
+
+	private long nextCheckBattery = 0;
+
+	private void checkBattery() {
+		if (nextCheckBattery < System.currentTimeMillis()) {
+			nextCheckBattery = System.currentTimeMillis() + 60000;
+			if (isBatteryCharging()) {
+				setKeepScreenOn(true);
+			} else {
+				setKeepScreenOn(false);
+			}
+		}
 	}
 
 	private void initPowerConnectionReceiver() {
@@ -131,7 +140,10 @@ public class FullscreenActivity extends Activity {
 			BroadcastReceiver tempPowerConnectionReceiver = new BroadcastReceiver() {
 				@Override
 				public void onReceive(Context context, Intent intent) {
-					setKeepScreenOn(isCharging(intent));
+					boolean tempCharging = isCharging(intent);
+					Log.d(getClass().getName(), "PowerConnectionReceiver:"
+							+ intent + " charging=" + tempCharging);
+					setKeepScreenOn(tempCharging);
 				}
 			};
 			IntentFilter ifilter = new IntentFilter(
@@ -141,7 +153,6 @@ public class FullscreenActivity extends Activity {
 			registerReceiver(tempPowerConnectionReceiver, ifilter);
 			powerConnectionReceiver = tempPowerConnectionReceiver;
 		}
-
 	}
 
 	/**
@@ -156,6 +167,12 @@ public class FullscreenActivity extends Activity {
 	}
 
 	private boolean isCharging(Intent batteryStatus) {
+		if (Intent.ACTION_POWER_DISCONNECTED.equals(batteryStatus.getAction())) {
+			return false;
+		}
+		if (Intent.ACTION_POWER_CONNECTED.equals(batteryStatus.getAction())) {
+			return true;
+		}
 		int chargePlug = batteryStatus.getIntExtra(
 				BatteryManager.EXTRA_PLUGGED, 0);
 		boolean usbCharge = (chargePlug & BatteryManager.BATTERY_PLUGGED_USB) > 0;
@@ -223,6 +240,7 @@ public class FullscreenActivity extends Activity {
 	@Override
 	protected void onStart() {
 		Log.i(getClass().getName(), "onStart:" + this);
+		initPowerConnectionReceiver();
 		super.onStart();
 		if (runnable == null) {
 			runnable = new Runnable() {
@@ -351,6 +369,8 @@ public class FullscreenActivity extends Activity {
 				+ tempColourBottom * 256 + tempColourBottom;
 		tempBottom.setBackgroundColor(tempIntColBot);
 		tempBottom.setTextColor(tempIntColBot);
+		
+		checkBattery();
 	}
 
 	private Context getActivity() {
