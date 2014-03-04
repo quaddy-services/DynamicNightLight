@@ -7,4 +7,7 @@
     <string name="clockInitialText">17:55</string>
 	<string name="PowerOn">Power is available.</string>
 	<string name="PowerOff">Power NOT attached!\nAttach power source to keep display on.</string>
+	<string name="pref_brightness">Brightness</string>
+	<string name="pref_brightness_default">50%</string>
+		<string name="options">Options</string>
 </resources>

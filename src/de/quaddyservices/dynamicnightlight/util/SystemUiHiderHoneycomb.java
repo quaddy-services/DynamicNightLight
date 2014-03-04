@@ -1,6 +1,7 @@
 package de.quaddyservices.dynamicnightlight.util;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Build;
 import android.view.View;
@@ -97,12 +98,21 @@ public class SystemUiHiderHoneycomb extends SystemUiHiderBase {
 	private View.OnSystemUiVisibilityChangeListener mSystemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
 		@Override
 		public void onSystemUiVisibilityChange(int vis) {
+			if (mActivity == null) {
+				// Android 4.0.3 - 4.0.4
+				return;
+			}
 			// Test against mTestFlags to see if the system UI is visible.
+			ActionBar tempActionBar = mActivity.getActionBar();
+			if (tempActionBar == null) {
+				// Android 4.0.3 - 4.0.4
+				return;
+			}
 			if ((vis & mTestFlags) != 0) {
 				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
 					// Pre-Jelly Bean, we must manually hide the action bar
 					// and use the old window flags API.
-					mActivity.getActionBar().hide();
+					tempActionBar.hide();
 					mActivity.getWindow().setFlags(
 							WindowManager.LayoutParams.FLAG_FULLSCREEN,
 							WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -118,7 +128,7 @@ public class SystemUiHiderHoneycomb extends SystemUiHiderBase {
 				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
 					// Pre-Jelly Bean, we must manually show the action bar
 					// and use the old window flags API.
-					mActivity.getActionBar().show();
+					tempActionBar.show();
 					mActivity.getWindow().setFlags(0,
 							WindowManager.LayoutParams.FLAG_FULLSCREEN);
 				}

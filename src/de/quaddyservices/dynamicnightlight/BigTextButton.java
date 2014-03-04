@@ -33,6 +33,7 @@ public class BigTextButton extends View {
 		super(context);
 		init();
 	}
+
 	/**
 	 * Dig out Attributes to find text setting
 	 * 
@@ -62,11 +63,14 @@ public class BigTextButton extends View {
 		mTextPaint = new TextPaint();
 		mTextPaint.setTextAlign(Paint.Align.CENTER);
 		mTextPaint.setAntiAlias(true);
-		mTextPaint.setColor(0xffffffff);
+		setColor(0xffffffff);
 		//mTextPaint.setTypeface(Typeface.MONOSPACE);
 	}
 
-	
+	public void setColor(int aColor) {
+		mTextPaint.setColor(aColor);
+	}
+
 	/**
 	 * set the scale of the text Paint objects so that the text will draw and
 	 * take up the full screen width
@@ -99,7 +103,7 @@ public class BigTextButton extends View {
 	 * determine the proper text size to use to fill the full height
 	 */
 	void adjustTextSize() {
-		if (mText.isEmpty()) {
+		if (mText.length() == 0) {
 			return;
 		}
 		mTextPaint.setTextSize(100);
@@ -133,7 +137,11 @@ public class BigTextButton extends View {
 
 		// save view size
 		mViewWidth = w;
-		mViewHeight = h;
+		if (w > h) {
+			mViewHeight = h;
+		} else {
+			mViewHeight = w;
+		}
 
 		// first determine font point size
 		adjustTextSize();

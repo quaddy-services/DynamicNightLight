@@ -6,12 +6,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -152,9 +157,9 @@ public class FullscreenActivity extends Activity {
 
 	private boolean isCharging(Intent batteryStatus) {
 		int chargePlug = batteryStatus.getIntExtra(
-				BatteryManager.EXTRA_PLUGGED, -1);
-		boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
-		boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+				BatteryManager.EXTRA_PLUGGED, 0);
+		boolean usbCharge = (chargePlug & BatteryManager.BATTERY_PLUGGED_USB) > 0;
+		boolean acCharge = (chargePlug & BatteryManager.BATTERY_PLUGGED_AC) > 0;
 		return usbCharge || acCharge;
 	}
 
@@ -282,7 +287,22 @@ public class FullscreenActivity extends Activity {
 		tempString = DateFormat.getTimeFormat(getActivity()).format(
 				new java.util.Date(System.currentTimeMillis()));
 
+		SharedPreferences tempPref = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		String tempPrefString = tempPref.getString("pref_brightness", "50");
+		int tempBrightness;
+		try {
+			tempBrightness = Integer.valueOf(tempPrefString);
+		} catch (NumberFormatException e) {
+			tempBrightness = 50;
+		}
+		int tempColourText = 255;
+		tempColourText = (int) Math.round(tempColourText * tempBrightness
+				/ 100.0);
+		int tempIntColourText = 0xff000000 + tempColourText * 256 * 256
+				+ tempColourText * 256 + tempColourText;
 		tempEditText.setText(tempString);
+		tempEditText.setColor(tempIntColourText);
 		if (runnable != null) {
 			final Handler handler = new Handler();
 			handler.postDelayed(runnable, 1000);
@@ -312,6 +332,8 @@ public class FullscreenActivity extends Activity {
 		} else {
 			tempColourTop = 0;
 		}
+		tempColourTop = (int) Math
+				.round(tempColourTop * tempBrightness / 100.0);
 		int tempIntColTop = 0xff000000 + tempColourTop * 256 * 256
 				+ tempColourTop * 256 + tempColourTop;
 		tempTopText.setBackgroundColor(tempIntColTop);
@@ -323,6 +345,8 @@ public class FullscreenActivity extends Activity {
 		} else {
 			tempColourBottom = 0;
 		}
+		tempColourBottom = (int) Math.round(tempColourBottom * tempBrightness
+				/ 100.0);
 		int tempIntColBot = 0xff000000 + tempColourBottom * 256 * 256
 				+ tempColourBottom * 256 + tempColourBottom;
 		tempBottom.setBackgroundColor(tempIntColBot);
@@ -344,6 +368,35 @@ public class FullscreenActivity extends Activity {
 		runnable = null;
 		Log.i(getClass().getName(), "onDestroy");
 		super.onDestroy();
-	};
+	}
+
+	/**
+	 * http://developer.android.com/guide/topics/ui/menus.html
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
+		return true;
+	}
+
+	/**
+	 * http://developer.android.com/guide/topics/ui/menus.html
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.menu_options:
+			Intent intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
+			return true;
+			//	        case R.id.help:
+			//	            showHelp();
+			//	            return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 
 }
