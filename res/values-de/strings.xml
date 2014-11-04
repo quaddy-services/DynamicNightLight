@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="exitButton">Schliessen</string>
+    <string name="exitButton">Schließen</string>
+	<string name="PowerOn">Stromkabel ist angeschlossen.</string>
+	<string name="PowerOff">KEIN Strom angeschlossen!\nStrom anschließen, damit Anzeige an bleibt.</string>
+	<string name="pref_brightness">Max. Helligkeit</string>
+	<string name="options">Einstellungen</string>
 </resources>
