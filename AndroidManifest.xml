@@ -2,17 +2,28 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.quaddyservices.dynamicnightlight"
     android:versionCode="8"
-    android:versionName="1.8" >
+    android:versionName="1.9" >
 
-    <!-- 
+    <!-- EN
+    1.9:
+    * Allow to not turn off screen on battery
+    1.8:
+    * German translation
+    * Czech translation added
+    -->
+    <!-- DE 
+    1.9:
+    * Anzeige kann immer an bleiben auch wenn kein Strom angeschlossen ist.
     1.8:
     * Deutsche Übersetzung
     * Czech translation added
+    -->
+    <!-- DE History
     1.5:
     * Uhr kann gedreht werden
     * Helligkeit kann eingestellt werden
     * Bug mit Android 4.0.3 - 4.0.4 gefixt.
- -->
+    -->
     <uses-sdk
         android:minSdkVersion="5"
         android:targetSdkVersion="19" />

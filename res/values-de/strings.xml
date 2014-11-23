@@ -3,6 +3,9 @@
     <string name="exitButton">Schließen</string>
 	<string name="PowerOn">Stromkabel ist angeschlossen.</string>
 	<string name="PowerOff">KEIN Strom angeschlossen!\nStrom anschließen, damit Anzeige an bleibt.</string>
+	<string name="KeepOnEvenOnBattery">Bildschrim aktiv!\nEinstellungen ändern,\ndamit Anzeige bei Batteriemodus aus geht.</string>
 	<string name="pref_brightness">Max. Helligkeit</string>
-	<string name="options">Einstellungen</string>
+	<string name="pref_ignoreBattery">AN mit Batterie</string>
+	<string name="pref_ignoreBattery_summ">Auch ohne Stromkabel die Anzeige immer an lassen.</string>
+		<string name="options">Einstellungen</string>
 </resources>

@@ -38,6 +38,8 @@ public class FullscreenActivity extends Activity {
 	 */
 	private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
 
+	private static final int SETTINGS_STARTED = 334;
+
 	private Runnable runnable;
 
 	/**
@@ -66,7 +68,7 @@ public class FullscreenActivity extends Activity {
 
 	private BroadcastReceiver powerConnectionReceiver;
 
-	private boolean keepOn;
+	private String lastPowerToast;
 
 	/**
 	 * Schedules a call to hide() in [delay] milliseconds, canceling any
@@ -186,20 +188,37 @@ public class FullscreenActivity extends Activity {
 	 * @param anAlwaysOnFlag
 	 */
 	private void setKeepScreenOn(boolean anAlwaysOnFlag) {
+
 		Log.i(getClass().getName(), "setKeepScreenOn=" + anAlwaysOnFlag);
 		Window tempWindow = getWindow();
 
-		if (anAlwaysOnFlag && !keepOn) {
+		String tempAlwaysOnInfo;
+		if (anAlwaysOnFlag) {
 			tempWindow.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-			Toast.makeText(this, getResources().getString(R.string.PowerOn),
-					Toast.LENGTH_LONG).show();
-		} else if (!anAlwaysOnFlag && keepOn) {
-			tempWindow
-					.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-			Toast.makeText(this, getResources().getString(R.string.PowerOff),
-					Toast.LENGTH_LONG).show();
+			tempAlwaysOnInfo = getResources().getString(R.string.PowerOn);
+		} else {
+			if (isKeepScreenOnBatteryToo()) {
+				tempWindow
+						.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+				tempAlwaysOnInfo = getResources().getString(R.string.KeepOnEvenOnBattery);
+			} else {
+				tempWindow
+						.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+				tempAlwaysOnInfo = getResources().getString(R.string.PowerOff);
+			}
 		}
-		keepOn = anAlwaysOnFlag;
+		if (lastPowerToast == null || !lastPowerToast.equals(tempAlwaysOnInfo)) {
+			lastPowerToast = tempAlwaysOnInfo;
+			Log.i(getClass().getName(), "Toast:" + tempAlwaysOnInfo);
+			Toast.makeText(this, tempAlwaysOnInfo, Toast.LENGTH_LONG).show();
+		}
+
+	}
+
+	private boolean isKeepScreenOnBatteryToo() {
+		SharedPreferences tempPref = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		return tempPref.getBoolean("pref_ignoreBattery", Boolean.FALSE);
 	}
 
 	@Override
@@ -251,10 +270,6 @@ public class FullscreenActivity extends Activity {
 			};
 		}
 		startTimer();
-		if (!keepOn) {
-			Toast.makeText(this, getResources().getString(R.string.PowerOff),
-					Toast.LENGTH_LONG).show();
-		}
 	}
 
 	@Override
@@ -369,7 +384,7 @@ public class FullscreenActivity extends Activity {
 				+ tempColourBottom * 256 + tempColourBottom;
 		tempBottom.setBackgroundColor(tempIntColBot);
 		tempBottom.setTextColor(tempIntColBot);
-		
+
 		checkBattery();
 	}
 
@@ -409,7 +424,7 @@ public class FullscreenActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.menu_options:
 			Intent intent = new Intent(this, SettingsActivity.class);
-			startActivity(intent);
+			startActivityForResult(intent,SETTINGS_STARTED);
 			return true;
 			//	        case R.id.help:
 			//	            showHelp();
@@ -418,5 +433,12 @@ public class FullscreenActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == SETTINGS_STARTED) {
+			nextCheckBattery = 0;
+			checkBattery();
+		}
+	}
 }

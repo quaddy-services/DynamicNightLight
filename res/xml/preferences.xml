@@ -8,5 +8,10 @@
         android:entryValues="@array/pref_brightness_values" 
         android:defaultValue="@string/pref_brightness_default"
         android:summary="%s"/>
+   <CheckBoxPreference
+        android:key="pref_ignoreBattery"
+        android:title="@string/pref_ignoreBattery"
+        android:summary="@string/pref_ignoreBattery_summ"
+        android:defaultValue="false" />
    
 </PreferenceScreen>

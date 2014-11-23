@@ -7,7 +7,10 @@
     <string name="clockInitialText">17:55</string>
 	<string name="PowerOn">Power is available.</string>
 	<string name="PowerOff">Power NOT attached!\nAttach power source to keep display on.</string>
+	<string name="KeepOnEvenOnBattery">Always ON!\nChange settings to dim display on battery.</string>
 	<string name="pref_brightness">Max. Brightness</string>
 	<string name="pref_brightness_default">50%</string>
-	<string name="options">Options</string>
+	<string name="pref_ignoreBattery">ON with battery</string>
+	<string name="pref_ignoreBattery_summ">Keep screen on even when on battery mode.</string>
+		<string name="options">Options</string>
 </resources>
