@@ -3,4 +3,10 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="small">8dp</dimen>
+    <dimen name="large">20dp</dimen>
+    <dimen name="clockTextSize">120dp</dimen>
+    <dimen name="padding">5px</dimen>
+
 </resources>
