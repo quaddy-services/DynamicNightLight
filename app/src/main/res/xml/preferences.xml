@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+   <de.quaddyservices.dynamicnightlight.util.ListPreferenceCompat
+        android:key="pref_brightness"
+        android:title="@string/pref_brightness"
+        android:dialogTitle="@string/pref_brightness"
+        android:entries="@array/pref_brightness_entries"
+        android:entryValues="@array/pref_brightness_values" 
+        android:defaultValue="@string/pref_brightness_default"
+        android:summary="%s"/>
+   <CheckBoxPreference
+        android:key="pref_ignoreBattery"
+        android:title="@string/pref_ignoreBattery"
+        android:summary="@string/pref_ignoreBattery_summ"
+        android:defaultValue="false" />
+   
+</PreferenceScreen>
