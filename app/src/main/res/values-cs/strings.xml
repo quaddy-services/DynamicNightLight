@@ -3,11 +3,13 @@
 
     <string name="app_name">Dynamic Night Light</string>
     <string name="exitButton">Ukončit</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="clockInitialText">17:55</string>
 	<string name="PowerOn">Adaptér připojen.</string>
 	<string name="PowerOff">Adaptér NENÍ připojen!\nPřipojte zdroj energie aby nebyl vypnut displej.</string>
+	<string name="KeepOnEvenOnBattery">Always ON!\nChange settings to dim display on battery.</string>
 	<string name="pref_brightness">Maximální jas</string>
 	<string name="pref_brightness_default">50%</string>
-		<string name="options">Nastavení</string>
+	<string name="pref_ignoreBattery">ON with battery</string>
+	<string name="pref_ignoreBattery_summ">Keep screen on even when on battery mode.</string>
+	<string name="options">Nastavení</string>
 </resources>

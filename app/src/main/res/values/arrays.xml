@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="pref_brightness_entries">
+    <string-array name="pref_brightness_entries" translatable="false">
         <item>25%</item>
         <item>50%</item>
         <item>75%</item>
         <item>100%</item>
     </string-array>
 
-    <string-array name="pref_brightness_values">
+    <string-array name="pref_brightness_values" translatable="false">
         <item>25</item>
         <item>50</item>
         <item>75</item>

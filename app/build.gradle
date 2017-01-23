@@ -1,14 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
+
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "de.quaddyservices.dynamicnightlight"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 200
+        versionName "2.00"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.quaddyservices.dynamicnightlight"
-    android:versionCode="200"
-    android:versionName="2.00" >
+    package="de.quaddyservices.dynamicnightlight" >
 
     <application
         android:allowBackup="true"
