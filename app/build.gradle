@@ -8,8 +8,8 @@ android {
         applicationId "de.quaddyservices.dynamicnightlight"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 200
-        versionName "2.00"
+        versionCode 2001
+        versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
