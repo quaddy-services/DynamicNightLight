@@ -9,6 +9,7 @@ import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     private long nextCheckBattery = 0;
     private Timer timer;
+    private int systemUiVisibility;
+    private CoordinatorLayout.Behavior behavior;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,45 +42,51 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
          View contentView = findViewById(R.id.fullscreen_content);
 
                         // Set up the user interaction to manually show or hide the system UI.
         contentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toggleFullscreen();
+                switchToFullscreen();
+            }
+        });
+        contentView.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                Log.i(getClass().getName(), "onLongClick:" + this);
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivityForResult(intent,SETTINGS_STARTED);
+                return true;
             }
         });
 
     }
 
-    private boolean fullscreen=false;
     /**
      * https://developer.android.com/training/system-ui/immersive.html
      */
-    private void toggleFullscreen() {
+    private void switchToFullscreen() {
         View contentView = findViewById(R.id.fullscreen_content);
-        View tempAppBarLayout = findViewById(R.id.AppBarLayout);
-        if (fullscreen) {
-            fullscreen= false;
-            contentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            tempAppBarLayout.setVisibility(View.VISIBLE);
-        } else {
+            Log.i(getClass().getName(), "switch to fullscreen" );
+            systemUiVisibility = contentView.getSystemUiVisibility();
             contentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                     | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                     | View.SYSTEM_UI_FLAG_IMMERSIVE);
-            tempAppBarLayout.setVisibility(View.INVISIBLE);
-            fullscreen= true;
-        }
-        contentView.forceLayout();
+
+        // http://stackoverflow.com/questions/10444153/android-statusbar-overlay-with-actionbar
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+
     }
 
+    /**
+     * To push the event to the View.EventQueue instead of the timer thread.
+     */
     private Handler mHandler = new Handler();
 
     @Override
@@ -101,11 +110,13 @@ public class MainActivity extends AppCompatActivity {
         },10000,5000);
 
         doTimer();
+        switchToFullscreen();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        Log.i(getClass().getName(), "onStop:" + this);
 
         if (powerConnectionReceiver != null) {
             unregisterReceiver(powerConnectionReceiver);

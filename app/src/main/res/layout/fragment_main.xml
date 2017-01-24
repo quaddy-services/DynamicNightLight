@@ -31,7 +31,6 @@
             android:id="@+id/textTop"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:background="@color/white"
             android:textAppearance="?android:attr/textAppearanceMedium"
