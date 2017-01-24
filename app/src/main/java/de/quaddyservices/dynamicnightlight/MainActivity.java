@@ -23,28 +23,62 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainActivity extends AppCompatActivity {
 
     private long nextCheckBattery = 0;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.i(getClass().getName(), "onCreate:" + this);
+
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+         View contentView = findViewById(R.id.fullscreen_content);
+
+                        // Set up the user interaction to manually show or hide the system UI.
+        contentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                toggleFullscreen();
             }
         });
+
     }
 
-    private Runnable runnable;
+    private boolean fullscreen=false;
+    /**
+     * https://developer.android.com/training/system-ui/immersive.html
+     */
+    private void toggleFullscreen() {
+        View contentView = findViewById(R.id.fullscreen_content);
+        View tempAppBarLayout = findViewById(R.id.AppBarLayout);
+        if (fullscreen) {
+            fullscreen= false;
+            contentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            tempAppBarLayout.setVisibility(View.VISIBLE);
+        } else {
+            contentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE);
+            tempAppBarLayout.setVisibility(View.INVISIBLE);
+            fullscreen= true;
+        }
+        contentView.forceLayout();
+    }
+
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onStart() {
@@ -52,15 +86,35 @@ public class MainActivity extends AppCompatActivity {
         Log.i(getClass().getName(), "onStart:" + this);
         initPowerConnectionReceiver();
         super.onStart();
-        if (runnable == null) {
-            runnable = new Runnable() {
-                public void run() {
-                    Log.d(getClass().getName(), "timer");
-                    startTimer();
-                }
-            };
+
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                mHandler.postDelayed(new Runnable(){
+                    @Override
+                    public void run() {
+                        doTimer();
+                    }
+                },100);
+            }
+        },10000,5000);
+
+        doTimer();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (powerConnectionReceiver != null) {
+            unregisterReceiver(powerConnectionReceiver);
+            powerConnectionReceiver = null;
         }
-        startTimer();
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
     }
 
     private  int offsetX = 1;
@@ -70,9 +124,10 @@ public class MainActivity extends AppCompatActivity {
     private int countColor = 0;
     private int offsetColor = 1;
 
-    private final Handler handler = new Handler();
+    private void doTimer() {
 
-    private void startTimer() {
+        Log.i(getClass().getName(), "doTimer");
+
         TextView tempTopText = (TextView) findViewById(R.id.textTop);
         TextView tempLeftText = (TextView) findViewById(R.id.textLeft);
         TextView tempRightText = (TextView) findViewById(R.id.textRight);
@@ -122,9 +177,6 @@ public class MainActivity extends AppCompatActivity {
                 + tempColourText * 256 + tempColourText;
         tempEditText.setText(tempString);
         tempEditText.setColor(tempIntColourText);
-        if (runnable != null) {
-               handler.postDelayed(runnable, 1000);
-        }
 
         countColor = countColor + offsetColor;
         if (countColor < -255) {

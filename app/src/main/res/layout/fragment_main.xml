@@ -19,7 +19,8 @@
         android:text="  "
         android:textColor="#33b5e5"
         android:textSize="50sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:scrollbarAlwaysDrawVerticalTrack="false" />
 
     <RelativeLayout
         android:background="@color/black"
