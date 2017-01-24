@@ -52,6 +52,7 @@ public class BigTextButton extends View {
 
 	public void setText(CharSequence text) {
 		mText = text.toString();
+		invalidate();
 		onSizeChanged(getWidth(), getHeight(), getWidth(), getHeight());
 	}
 
