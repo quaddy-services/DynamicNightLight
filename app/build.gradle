@@ -2,17 +2,42 @@ apply plugin: 'com.android.application'
 
 android {
 
+    def code = 1
+    def doRelease
+
+    // http://tools.android.com/tech-docs/new-build-system/user-guide
+    buildTypes {
+        release {
+            doRelease = true;
+        }
+        debug {
+            doRelease = false
+        }
+    }
+
+    if (doRelease) {
+        def versionPropsFile = file('version.properties')
+        def Properties versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        code = versionProps['VERSION_CODE'].toInteger() + 1
+
+        versionProps['VERSION_CODE']=code.toString()
+        versionProps.store(versionPropsFile.newWriter(), null)
+
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "de.quaddyservices.dynamicnightlight"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 2002
+        versionCode code
         versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
