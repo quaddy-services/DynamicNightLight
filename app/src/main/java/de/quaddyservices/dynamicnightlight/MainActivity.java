@@ -65,6 +65,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.textTop).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(getClass().getName(), "onClick buttonTopRight:" + this);
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivityForResult(intent, SETTINGS_STARTED);
+            }
+        });
     }
 
     /**
