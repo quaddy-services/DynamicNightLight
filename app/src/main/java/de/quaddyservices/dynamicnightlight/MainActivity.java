@@ -1,6 +1,5 @@
 package de.quaddyservices.dynamicnightlight;
 
-import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,10 +16,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private long nextCheckBattery = 0;
     private Timer timer;
-     private CoordinatorLayout.Behavior behavior;
+    private CoordinatorLayout.Behavior behavior;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-         View contentView = findViewById(R.id.fullscreen_content);
+        View contentView = findViewById(R.id.fullscreen_content);
 
-                        // Set up the user interaction to manually show or hide the system UI.
+        // Set up the user interaction to manually show or hide the system UI.
         contentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 Log.i(getClass().getName(), "onLongClick:" + this);
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivityForResult(intent,SETTINGS_STARTED);
+                startActivityForResult(intent, SETTINGS_STARTED);
                 return true;
             }
         });
@@ -70,26 +72,40 @@ public class MainActivity extends AppCompatActivity {
      */
     private void switchToFullscreen() {
         // http://stackoverflow.com/questions/16291640/how-to-hide-the-soft-key-bar-on-android-phone
-        View decorView = getWindow().getDecorView();
+        //View decorView = getWindow().getDecorView();
+         View decorView = findViewById(R.id.fullscreen_content);
+        Log.i(getClass().getName(), "switch to fullscreen " + decorView);
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+               | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+               | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+               | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                | View.SYSTEM_UI_FLAG_IMMERSIVE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        // Note that some of these constants are new as of API 16 (Jelly Bean)
+        // and API 19 (KitKat). It is safe to use them, as they are inlined
+        // at compile-time and do nothing on earlier devices.
+//        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+//                | View.SYSTEM_UI_FLAG_FULLSCREEN
+//                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+//                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-        Log.i(getClass().getName(), "switch to fullscreen " +decorView);
-         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE);
 
         // Remember that you should never show the action bar if the
 // status bar is hidden, so hide that too if necessary.
 //        ActionBar actionBar = getActionBar();
-  //      actionBar.hide();
+        //      actionBar.hide();
         //  View contentView = findViewById(R.id.fullscreen_content);
-       // contentView.setFitsSystemWindows(true);
+        // contentView.setFitsSystemWindows(true);
         // http://stackoverflow.com/questions/10444153/android-statusbar-overlay-with-actionbar
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_OVERSCAN);
+ //       getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
 
     }
 
@@ -109,14 +125,14 @@ public class MainActivity extends AppCompatActivity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                mHandler.postDelayed(new Runnable(){
+                mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         doTimer();
                     }
-                },100);
+                }, 100);
             }
-        },10000,5000);
+        }, 10000, 5000);
 
         doTimer();
         switchToFullscreen();
@@ -137,8 +153,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private  int offsetX = 1;
-    private  int countX = 0;
+    private int offsetX = 1;
+    private int countX = 0;
     private final int maxCount = 60;
 
     private int countColor = 0;
@@ -244,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
 
         checkBattery();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         Log.i(getClass().getName(), "onCreate...");
@@ -270,13 +287,14 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.options) {
             Intent intent = new Intent(this, SettingsActivity.class);
-            startActivityForResult(intent,SETTINGS_STARTED);
+            startActivityForResult(intent, SETTINGS_STARTED);
 
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -296,6 +314,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     /**
      * http://developer.android.com/training/monitoring-device-state/battery-monitoring.html
      *
