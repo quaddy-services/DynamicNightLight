@@ -19,7 +19,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "de.quaddyservices.dynamicnightlight"
-        minSdkVersion 15
+        minSdkVersion 11
         targetSdkVersion 25
         versionCode code
         versionName "2.0."+code
