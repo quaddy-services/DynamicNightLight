@@ -2,16 +2,30 @@
 <resources>
 
     <string-array name="pref_brightness_entries" translatable="false">
+        <item>5%</item>
+        <item>10%</item>
+        <item>15%</item>
         <item>25%</item>
+        <item>38%</item>
         <item>50%</item>
+        <item>62%</item>
         <item>75%</item>
+        <item>85%</item>
+        <item>90%</item>
         <item>100%</item>
     </string-array>
 
     <string-array name="pref_brightness_values" translatable="false">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
         <item>25</item>
+        <item>38</item>
         <item>50</item>
+        <item>62</item>
         <item>75</item>
+        <item>85</item>
+        <item>90</item>
         <item>100</item>
     </string-array>
 
