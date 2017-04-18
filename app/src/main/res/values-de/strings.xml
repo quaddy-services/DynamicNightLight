@@ -11,4 +11,6 @@
 	<string name="pref_ignoreBattery">AN mit Batterie</string>
 	<string name="pref_ignoreBattery_summ">Auch ohne Stromkabel die Anzeige immer an lassen.</string>
 		<string name="options">Einstellungen</string>
+	<string name="pref_showSeconds">Sekunden anzeigen</string>
+	<string name="pref_showSeconds_summ">Sekundenanzeige benötigt etwas mehr CPU.</string>
 </resources>

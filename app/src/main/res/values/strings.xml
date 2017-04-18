@@ -11,5 +11,7 @@
     <string name="pref_ignoreBattery">ON with battery</string>
     <string name="pref_ignoreBattery_summ">Keep screen on even when on battery mode.</string>
     <string name="options">Options</string>
+    <string name="pref_showSeconds">Show seconds</string>
+    <string name="pref_showSeconds_summ">Show seconds uses more CPU.</string>
 
 </resources>

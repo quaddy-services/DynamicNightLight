@@ -13,5 +13,11 @@
         android:title="@string/pref_ignoreBattery"
         android:summary="@string/pref_ignoreBattery_summ"
         android:defaultValue="false" />
-   
+
+    <CheckBoxPreference
+        android:key="pref_showSeconds"
+        android:title="@string/pref_showSeconds"
+        android:summary="@string/pref_showSeconds_summ"
+        android:defaultValue="false" />
+
 </PreferenceScreen>

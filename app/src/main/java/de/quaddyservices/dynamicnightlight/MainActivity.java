@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -28,6 +29,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -140,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }, 100);
             }
-        }, 10000, 5000);
+        }, 10000, 1000);
 
         doTimer();
         switchToFullscreen();
@@ -168,7 +171,18 @@ public class MainActivity extends AppCompatActivity {
     private int countColor = 0;
     private int offsetColor = 1;
 
+    private int secondsTimer = 5;
+
     private void doTimer() {
+        secondsTimer = secondsTimer - 1;
+        if (secondsTimer>0) {
+            return;
+        }
+        if (isShowSeconds()) {
+            secondsTimer = 1;
+        } else {
+            secondsTimer = 5; // every 5 seconds
+        }
 
         Log.i(getClass().getName(), "doTimer");
 
@@ -201,10 +215,27 @@ public class MainActivity extends AppCompatActivity {
         // layoutParams.setMargins(countX, 0, 0, 0);
         // tempEditText.setLayoutParams(layoutParams);
 
+        java.text.DateFormat timeFormat;
+        if (isShowSeconds()) {
+            Locale locale;
+            if (Build.VERSION.SDK_INT < 24) {
+                locale = getResources().getConfiguration().locale;
+            } else {
+                locale = getResources().getConfiguration().getLocales().get(0);
+            }
+            String timeFormatString;
+            if (Build.VERSION.SDK_INT < 18) {
+                timeFormatString = "HH:mm:ss";
+            } else {
+                timeFormatString = DateFormat.getBestDateTimePattern(locale, "HHmmss");
+            }
+            timeFormat = new SimpleDateFormat(timeFormatString);
+        } else {
+            timeFormat = DateFormat.getTimeFormat(this);
+        }
         String tempString;
-        tempString = DateFormat.getTimeFormat(this).format(
+        tempString = timeFormat.format(
                 new java.util.Date(System.currentTimeMillis()));
-
         SharedPreferences tempPref = PreferenceManager
                 .getDefaultSharedPreferences(this);
         String tempPrefString = tempPref.getString("pref_brightness", "50");
@@ -388,7 +419,11 @@ public class MainActivity extends AppCompatActivity {
                 .getDefaultSharedPreferences(this);
         return tempPref.getBoolean("pref_ignoreBattery", Boolean.FALSE);
     }
-
+    private boolean isShowSeconds() {
+        SharedPreferences tempPref = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        return tempPref.getBoolean("pref_showSeconds", Boolean.FALSE);
+    }
     private BroadcastReceiver powerConnectionReceiver;
 
     private void initPowerConnectionReceiver() {
