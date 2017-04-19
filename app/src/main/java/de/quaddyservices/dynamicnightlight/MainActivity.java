@@ -143,8 +143,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }, 100);
             }
-        }, 10000, 1000);
-
+        }, 1000, 1000);
+        secondsTimer = 1;
         doTimer();
         switchToFullscreen();
     }
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
     private int countColor = 0;
     private int offsetColor = 1;
 
-    private int secondsTimer = 5;
+    private int secondsTimer = 1;
 
     private void doTimer() {
         secondsTimer = secondsTimer - 1;
