@@ -5,6 +5,7 @@ import android.os.Build;
 import android.preference.ListPreference;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 
 /**
  * http://stackoverflow.com/questions/10119852/listpreferences-summary-text-is-not-updated-automatically-whenever-there-is-cha
@@ -16,6 +17,7 @@ public class ListPreferenceCompat extends ListPreference {
 
 	public ListPreferenceCompat(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		Log.d(getClass().getName(), "attrs=" + attrs);
 	}
 
 	public ListPreferenceCompat(Context context) {
@@ -45,14 +47,17 @@ public class ListPreferenceCompat extends ListPreference {
 	@Override
 	public void setSummary(CharSequence summary) {
 		super.setSummary(summary);
+		Log.d(getClass().getName(), "setSummary=" + summary);
 	}
 
 	@Override
 	public CharSequence getSummary() {
 		CharSequence tempSummary = super.getSummary();
-		if (tempSummary.equals("%s")) {
+		if (tempSummary==null || tempSummary.equals("%s") || tempSummary.equals("")) {
 			tempSummary = "50%";
 		}
+		Log.d(getClass().getName(), "getSummary()=" + tempSummary);
+
 		return tempSummary;
 	}
 }

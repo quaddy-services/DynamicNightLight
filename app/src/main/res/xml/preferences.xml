@@ -6,7 +6,7 @@
         android:dialogTitle="@string/pref_brightness"
         android:entries="@array/pref_brightness_entries"
         android:entryValues="@array/pref_brightness_values" 
-        android:defaultValue="@string/pref_brightness_default"
+        android:defaultValue="50%"
         android:summary="%s"/>
    <CheckBoxPreference
         android:key="pref_ignoreBattery"

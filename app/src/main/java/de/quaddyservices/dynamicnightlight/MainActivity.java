@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
             secondsTimer = 5; // every 5 seconds
         }
 
-        Log.i(getClass().getName(), "doTimer");
+        Log.d(getClass().getName(), "doTimer");
 
         TextView tempTopText = (TextView) findViewById(R.id.textTop);
         TextView tempLeftText = (TextView) findViewById(R.id.textLeft);
