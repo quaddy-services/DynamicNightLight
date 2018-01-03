@@ -18,9 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="de.quaddyservices.dynamicnightlight.SettingsActivity">
-            <category android:name="android.intent.catagory.PREFERENCE" />
-        </activity>
+        <activity android:name="de.quaddyservices.dynamicnightlight.SettingsActivity" />
     </application>
 
 </manifest>
