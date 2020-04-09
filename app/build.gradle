@@ -19,7 +19,8 @@ android {
     defaultConfig {
         applicationId "de.quaddyservices.dynamicnightlight"
         minSdkVersion 14
-        targetSdkVersion 26
+        // Android 9 = 28
+        targetSdkVersion 28
         versionCode code
         versionName "2.0."+code
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
