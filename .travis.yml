@@ -1,5 +1,10 @@
 language: android
 dist: trusty
+
+# https://stackoverflow.com/questions/33820638/travis-yml-gradlew-permission-denied
+before_install:
+  - chmod +x gradlew
+
 android:
   components:
     # Uncomment the lines below if you want to
