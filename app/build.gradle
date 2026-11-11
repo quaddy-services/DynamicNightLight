@@ -29,7 +29,10 @@ android {
     }
      buildTypes {
         release {
-            minifyEnabled false
+            // Enables R8 code shrinking, obfuscation, and optimization.
+            minifyEnabled true
+            // Enables resource shrinking (removes unused resources).
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
